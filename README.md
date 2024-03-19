@@ -1,54 +1,47 @@
-# Astro Starter Kit: Basics
+## 创建 Astro 项目
 
-```sh
-npm create astro@latest -- --template basics
+```bash
+pnpm create astro@latest
+
+选择基础模板
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+创建完成后执行 `pnpm dev`
+打开`http://localhost:4321/`能看到这个页面就行
+![astro-home](/assets/astro-home.png)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 提交到 Github
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+- Github 创建一个空项目
+- 打开`astro`项目控制台，开推！
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+git remote add origin https://github.com/xxxx
+git branch -M main
+git add .
+git commit -m 'build: astro init'
+git push -u origin main
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Github 配置
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- 点击 `Setting` - `Pages` - `Source` - `Github Actions` - `Static HTML`
+  ![Github 配置](/assets/github-setting-pages.png)
 
-Any static assets, like images, can be placed in the `public/` directory.
+- 这时候会直接生成一个工作流文件，先不用管 直接 commit change
+  ![Github 配置](/assets/github-workflow.png)
 
-## 🧞 Commands
+## 本地修改
 
-All commands are run from the root of the project, from a terminal:
+- 回到本地`astro`项目中，执行`git pull`
+- 修改`/.github/workflows/static.yml`
+  - 由于推到 `static html` 方式推到`github.io`默认访问的是项目下的`index.html`文件，所以需要修改下`base path`
+    ![yml 文件修改](/assets/yml.png)
+- 修改 gitignore 文件，把`/dist`目录添加进去
+- 执行 `pnpm build`
+- 推代码
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 测试结果
+- 在 `Github` 项目中点击 `Actions` 会看到工作流执行过程，点击最新工作流
+![撒花](/assets/ending.png)
+- 点击这个链接，撒花！ 恭喜你！ 成功部署到了 `github.io`
