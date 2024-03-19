@@ -45,3 +45,11 @@ git push -u origin main
 - 在 `Github` 项目中点击 `Actions` 会看到工作流执行过程，点击最新工作流
 ![撒花](/assets/ending.png)
 - 点击这个链接，撒花！ 恭喜你！ 成功部署到了 `github.io`
+
+## 彩蛋
+
+后面如果继续进行开发，当有一些引用文件的时候，例如样式文件，你会发现卧槽！不生效，遭骗了!
+- 需要干的最后一步：
+因为 `github.io` 访问文件路径是 `http://xxxx.github.io/xxxx/xxx`，所以需要在 `astro` 项目中添加一个 `base` 属性，
+`astro.config.mjs`
+![配置base](/assets/astro-config.png)
