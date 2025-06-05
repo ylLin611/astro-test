@@ -1,51 +1,157 @@
 ---
+import "@/styles/global.css";
+import { Icon } from "astro-icon/components";
+import { cva } from "class-variance-authority";
+import ThemeIcon from "@/components/ThemeIcon.astro";
+import { Image } from "astro:assets";
+import avatorImage from "@/images/avator.png";
+
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
+
+const navList = [
+  { title: "首页", mtitle: "首页", href: "/", icon: "home" },
+  { title: "技术文章", mtitle: "文章", href: "/columns", icon: "order" },
+];
+
+const link = cva(
+  "flex flex-row justify-start items-center px-4 py-3 rounded-xl mb-2",
+  {
+    variants: {
+      intent: {
+        default: [
+          "hover:bg-[var(--btn-plain-bg)]",
+          "hover:shadow-2xl",
+          "hover:shadow-[#d4ddff]",
+          "dark:hover:shadow-inherit",
+          "hover:text-[--primary]",
+          "dark:hover:text-inherit",
+        ],
+        active: ["text-[#fff]", "bg-[var(--primary)]"],
+      },
+    },
+    defaultVariants: {
+      intent: "default",
+    },
+  }
+);
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="zh-hans" class="bg-[var(--page-bg)]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>
+      const setTheme = () => {
+        const theme = (() => {
+          if (
+            typeof localStorage !== "undefined" &&
+            localStorage.getItem("theme")
+          ) {
+            return localStorage.getItem("theme");
+          }
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+          }
+          return "light";
+        })();
+
+        if (theme === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+        } else {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+
+        window.localStorage.setItem("theme", theme || "light");
+      };
+      setTheme();
+
+      document.addEventListener("astro:after-swap", setTheme);
+    </script>
+  </head>
+  <body>
+    <div
+      id="page"
+      class="flex min-h-screen overflow-hidden rounded-md text-[var(--text)] md:mx-10 md:mt-14"
+    >
+      <div class="hidden min-w-64 bg-[var(--side-bg)] md:block">
+        <div class="mb-5 flex items-center justify-between px-8">
+          <a href="/" class="flex flex-row items-center justify-start py-4">
+            <Image
+              src="/android-chrome-512x512.png"
+              width="256"
+              height="256"
+              alt=""
+              class="mr-4 h-10 w-10 rounded-full"
+            />
+            <h1 class="text-lg">我的博客</h1>
+          </a>
+          <ThemeIcon />
+        </div>
+        <ul
+          class="mb-5 border-b border-solid border-b-[var(--side-border)] px-8 py-0 pb-5"
+        >
+          {
+            navList.map(({ title, href, icon }) => {
+              const isCurrentPage =
+                href == "/"
+                  ? Astro.url.pathname === href
+                  : Astro.url.pathname.startsWith(href);
+              const intent = isCurrentPage ? "active" : "default";
+              return (
+                <li>
+                  <a href={href} class={link({ intent })}>
+                    <Icon name={icon} class="mr-3" />
+                    <span>{title}</span>
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+      <div class="w-full flex-1 bg-[var(--content-bg)] pb-20">
+        <slot />
+      </div>
+      <div class="hidden min-w-64 bg-[var(--side-bg)] xl:block">Right</div>
+      <div
+        class="footer-nav fixed bottom-0 z-50 flex w-full items-center justify-around border-t border-t-[var(--nav-border-color)] bg-white p-2 text-sm md:hidden dark:bg-[var(--side-bg)]"
+      >
+        {
+          navList.map(({ mtitle, href, icon }) => {
+            const isCurrentPage =
+              href == "/"
+                ? Astro.url.pathname === href
+                : Astro.url.pathname.startsWith(href);
+            if (!mtitle) return null;
+            return (
+              <a
+                href={href}
+                class={`flex flex-col items-center justify-center ${isCurrentPage ? "text-[var(--hilight-color)] dark:text-[#fff]" : ""}`}
+              >
+                <Icon name={icon} class="mb-1" />
+                <span>{mtitle}</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+    <div class="footer my-4 text-center text-sm text-[#7e85ad]">
+      <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">
+        浙ICP备xxxxxx号
+      </a>
+    </div>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
