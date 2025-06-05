@@ -2,6 +2,7 @@
   "name": "blog",
   "type": "module",
   "version": "0.0.1",
+  "author": "LIN",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

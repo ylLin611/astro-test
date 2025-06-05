@@ -38,6 +38,7 @@ const link = cva(
     },
   }
 );
+const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -46,10 +47,24 @@ const link = cva(
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href={`${BASE_URL}/apple-touch-icon.png`}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href={`${BASE_URL}/favicon-32x32.png`}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href={`${BASE_URL}/favicon-16x16.png`}
+    />
+    <link rel="manifest" href={`${BASE_URL}/site.webmanifest`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <script is:inline>
@@ -89,7 +104,7 @@ const link = cva(
         <div class="mb-5 flex items-center justify-between px-8">
           <a href="/" class="flex flex-row items-center justify-start py-4">
             <Image
-              src="/android-chrome-512x512.png"
+              src={`${BASE_URL}/android-chrome-512x512.png`}
               width="256"
               height="256"
               alt=""
@@ -147,11 +162,6 @@ const link = cva(
           })
         }
       </div>
-    </div>
-    <div class="footer my-4 text-center text-sm text-[#7e85ad]">
-      <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">
-        浙ICP备xxxxxx号
-      </a>
     </div>
   </body>
 </html>
