@@ -4,17 +4,22 @@ import { Icon } from "astro-icon/components";
 import { cva } from "class-variance-authority";
 import ThemeIcon from "@/components/ThemeIcon.astro";
 import { Image } from "astro:assets";
-import avatorImage from "@/images/avator.png";
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+const BASE_URL = import.meta.env.BASE_URL;
 
 const navList = [
-  { title: "首页", mtitle: "首页", href: "/", icon: "home" },
-  { title: "技术文章", mtitle: "文章", href: "/columns", icon: "order" },
+  { title: "首页", mtitle: "首页", href: BASE_URL + "/", icon: "home" },
+  {
+    title: "文章",
+    mtitle: "文章",
+    href: BASE_URL + "/columns",
+    icon: "order",
+  },
 ];
 
 const link = cva(
@@ -38,7 +43,6 @@ const link = cva(
     },
   }
 );
-const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -110,7 +114,7 @@ const BASE_URL = import.meta.env.BASE_URL;
               alt=""
               class="mr-4 h-10 w-10 rounded-full"
             />
-            <h1 class="text-lg">我的博客</h1>
+            <h1 class="text-lg">LIN</h1>
           </a>
           <ThemeIcon />
         </div>
@@ -120,7 +124,7 @@ const BASE_URL = import.meta.env.BASE_URL;
           {
             navList.map(({ title, href, icon }) => {
               const isCurrentPage =
-                href == "/"
+                href == BASE_URL + "/"
                   ? Astro.url.pathname === href
                   : Astro.url.pathname.startsWith(href);
               const intent = isCurrentPage ? "active" : "default";
@@ -139,14 +143,14 @@ const BASE_URL = import.meta.env.BASE_URL;
       <div class="w-full flex-1 bg-[var(--content-bg)] pb-20">
         <slot />
       </div>
-      <div class="hidden min-w-64 bg-[var(--side-bg)] xl:block">Right</div>
+      <!-- <div class="hidden min-w-64 bg-[var(--side-bg)] xl:block">Right</div> -->
       <div
         class="footer-nav fixed bottom-0 z-50 flex w-full items-center justify-around border-t border-t-[var(--nav-border-color)] bg-white p-2 text-sm md:hidden dark:bg-[var(--side-bg)]"
       >
         {
           navList.map(({ mtitle, href, icon }) => {
             const isCurrentPage =
-              href == "/"
+              href == BASE_URL + "/"
                 ? Astro.url.pathname === href
                 : Astro.url.pathname.startsWith(href);
             if (!mtitle) return null;

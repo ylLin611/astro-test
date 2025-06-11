@@ -31,3 +31,15 @@
   --content-border: #1e2036;
   --nav-border-color: #0d0f1e;
 }
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  /* 关闭默认动画 */
+  animation: none !important;
+}
+
+:root[data-theme="light"]::view-transition-old(root) {
+  z-index: 100;
+} 
+
+
