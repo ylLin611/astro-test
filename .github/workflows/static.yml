@@ -36,6 +36,11 @@ jobs:
         with:
           node-version: "22"
           cache: "pnpm"
+      - name: Install pnpm
+        use: pnpm/action-setup@v3
+        with:
+          version: 9
+          run_install: false
       - name: Install dependencies
         run: pnpm install
       - name: Build
